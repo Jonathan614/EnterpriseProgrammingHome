@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Data;
 using DataAccess.Context;
+using BusinessLogic.Services;
+using DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,13 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AirlineDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<FlightsService>();
+builder.Services.AddScoped<FlightDbRepository>();
+
+builder.Services.AddScoped<TicketsService>();
+builder.Services.AddScoped<TicketDbRepository>();
+
+
 
 var app = builder.Build();
 

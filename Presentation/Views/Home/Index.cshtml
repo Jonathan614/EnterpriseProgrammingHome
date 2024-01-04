@@ -1,8 +1,46 @@
-﻿@{
+﻿@model IEnumerable<BusinessLogic.ViewModels.FlightViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <h1 class="display-4">Flight Information</h1>
+
+    @* Add a button to navigate to the flight search page *@
+    <div class="mb-3">
+        <a class="btn btn-primary" href="/Flights/Search">Search Flights</a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Departure Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var flight in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelFlight => flight.countryFrom)</td>
+                        <td>@Html.DisplayFor(modelFlight => flight.countryTo)</td>
+                        <td>@Html.DisplayFor(modelFlight => flight.departureDate)</td>
+                        <td>
+                            @* Improve the "More Info" link styling *@
+                            <a class="btn btn-info btn-sm" href="@Url.Action("Details", "Flights", new { id = flight.Id })">More Info</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No flights available.</p>
+    }
 </div>
