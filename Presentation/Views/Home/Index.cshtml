@@ -1,16 +1,18 @@
 ﻿@model IEnumerable<BusinessLogic.ViewModels.FlightViewModel>
+@using System.Globalization;
+
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="container mt-4">
-    <h1 class="display-4">Flight Information</h1>
+    <h1 class="display-4">Flights</h1>
 
     @* Add a button to navigate to the flight search page *@
-    <div class="mb-3">
+   @* <div class="mb-3">
         <a class="btn btn-primary" href="/Flights/Search">Search Flights</a>
-    </div>
+    </div>*@
 
     @if (Model != null && Model.Any())
     {
@@ -20,19 +22,22 @@
                     <th>From</th>
                     <th>To</th>
                     <th>Departure Date</th>
-                    <th>Actions</th>
+                     <th>Remaining Seats</th>
+                    <th>Price</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var flight in Model)
+                @foreach (var flight in Model.Where(f => f.departureDateTime >= DateTime.Now)) //filter out flights that passed
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelFlight => flight.countryFrom)</td>
                         <td>@Html.DisplayFor(modelFlight => flight.countryTo)</td>
-                        <td>@Html.DisplayFor(modelFlight => flight.departureDate)</td>
+                        <td>@flight.departureDateTime.ToString("dd/MM/yy - HH:mm")</td>
+                        <td>@Html.DisplayFor(modelFlight => flight.seatsLeft)</td>
+                        <td>@string.Format(new System.Globalization.CultureInfo("en-EU"), "{0:C}", flight.price)</td>
                         <td>
-                            @* Improve the "More Info" link styling *@
-                            <a class="btn btn-info btn-sm" href="@Url.Action("Details", "Flights", new { id = flight.Id })">More Info</a>
+                            <a class="btn btn-info btn-sm" href="@Url.Action("Book", "Tickets", new { id = flight.Id })">Book</a>
                         </td>
                     </tr>
                 }

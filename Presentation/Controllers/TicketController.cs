@@ -134,7 +134,6 @@ namespace Presentation.Controllers
         {
             var list = flightsService.ListFlights();
             return View(list); //connection to the database is opened only here 
-            //to render the text black on white on the page
         }
 
         public IActionResult Book(int id)
