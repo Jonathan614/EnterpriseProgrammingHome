@@ -1,5 +1,46 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model BusinessLogic.ViewModels.TicketViewModel
+
+
 @{
+    ViewData["Title"] = "Book Ticket";
 }
+
+<div class="container mt-5">
+    <h1 class="display-4">Book Ticket</h1>
+
+    <form method="post" action="@Url.Action("Book", "Tickets")">
+        @* You can use the Tag Helpers or HTML helpers here to generate form controls. Below is an example using HTML helpers. *@
+        
+        <div class="form-group">
+            <label for="row">Row:</label>
+            <input type="number" class="form-control" id="row" name="row" required>
+        </div>
+
+        <div class="form-group">
+            <label for="column">Column:</label>
+            <input type="number" class="form-control" id="column" name="column" required>
+        </div>
+
+        <div class="form-group">
+            <label for="flightId">Flight ID:</label>
+            <input type="number" class="form-control" id="flightId" name="flightId" required>
+        </div>
+
+        <div class="form-group">
+            <label for="passport">Passport:</label>
+            <input type="text" class="form-control" id="passport" name="passport" required>
+        </div>
+
+        <div class="form-group">
+            <label for="pricePaid">Price Paid:</label>
+            <input type="number" class="form-control" id="pricePaid" name="pricePaid" required>
+        </div>
+
+        <div class="form-group">
+            <label for="cancelled">Cancelled:</label>
+            <input type="checkbox" class="form-check-input" id="cancelled" name="cancelled">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Book Ticket</button>
+    </form>
+</div>
