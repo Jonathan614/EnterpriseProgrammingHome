@@ -1,0 +1,40 @@
+﻿@model BusinessLogic.ViewModels.FlightViewModel
+
+@{
+    ViewData["Title"] = "Flight Details";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">@Model.countryFrom to @Model.countryTo</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="card-title">Flight ID:</h5>
+                    <p class="card-text">@Model.Id</p>
+
+                    <h5 class="card-title">Departure:</h5>
+                    <p class="card-text">@Model.departureDateTime.ToString("dd/MM/yy - HH:mm")</p>
+
+                    <h5 class="card-title">Arrival:</h5>
+                    <p class="card-text">@Model.arrivalDateTime.ToString("dd/MM/yy - HH:mm")</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="card-title">Seats Remaining:</h5>
+                    <p class="card-text">@Model.seatsLeft</p>
+
+                    <h5 class="card-title">Price:</h5>
+                    <p class="card-text">@Model.price.ToString("C", new System.Globalization.CultureInfo("en-EU"))</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a class="btn btn-success" href="@Url.Action("Book", "Ticket", new { id = Model.Id })">Book This Flight</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+                <a class="btn btn-sm btn-info" href="@Url.Action("Index", "Home")">Back to Flights</a>
+    </div>
+</div>

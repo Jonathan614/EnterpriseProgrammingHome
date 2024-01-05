@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services;
+using BusinessLogic.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
@@ -20,31 +21,19 @@ namespace Presentation.Controllers
         }
 
         [HttpGet] //Get method is called to load the page with blank controls
-        [Authorize]
-       /* public IActionResult Create()
+        public IActionResult Book()
         {
-            //do we need to process anything here the first time the user requests the create-an-item page?
+            TicketViewModel myModel = new TicketViewModel();
 
-
-            //make a call to get a list of categories
-            var categories = categoriesService.GetCategories();
-
-            //find a way how to pass those categories into the View
-            CreateItemViewModel myModel = new CreateItemViewModel();
-            myModel.Categories = categories;
-
-            //OR
-            //ViewBag.Categories = categories;
 
 
             return View(myModel);
         }
 
-        [HttpPost] //Post method is called after the end user fills in the data and presses Submit button
-        [Authorize]
+        /*[HttpPost] //Post method is called after the end user fills in the data and presses Submit button
         public IActionResult Create(CreateItemViewModel data, IFormFile file)
-        {
-            string username = User.Identity.Name; //that gives you the username (email) of the currently logged in user
+        {*/
+            /*string username = User.Identity.Name; //that gives you the username (email) of the currently logged in user
 
             logService.LogMessage($"{username} is trying to create a new item with name {data.Name}", "info");
             if (ModelState.IsValid) //we are making sure that the validators are fired
@@ -125,10 +114,10 @@ namespace Presentation.Controllers
             // return RedirectToAction("Create");
             var categories = categoriesService.GetCategories();
             CreateItemViewModel myModel = new CreateItemViewModel();
-            myModel.Categories = categories;
+            myModel.Categories = categories;*/
 
-            return View("Create", myModel);
-        }*/
+        /*    return View("Book", myModel);
+        }
 
         public IActionResult List()
         {
@@ -153,7 +142,7 @@ namespace Presentation.Controllers
             }
             else
                 return View(myFoundItem); //this will automatically redirect the user to a View called "Details"
-        }
+        }*/
 
         /*public IActionResult Search(string keyword)
         {
