@@ -1,5 +1,4 @@
-﻿@model BusinessLogic.ViewModels.TicketViewModel
-
+﻿@model BusinessLogic.ViewModels.BookTicketViewModel
 
 @{
     ViewData["Title"] = "Book Ticket";
@@ -8,37 +7,40 @@
 <div class="container mt-5">
     <h1 class="display-4">Book Ticket</h1>
 
-    <form method="post" action="@Url.Action("Book", "Tickets")">
-        @* You can use the Tag Helpers or HTML helpers here to generate form controls. Below is an example using HTML helpers. *@
-        
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.Message
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Error
+        </div>
+    }
+
+    <form method="post" asp-action="Book">
+
         <div class="form-group">
-            <label for="row">Row:</label>
-            <input type="number" class="form-control" id="row" name="row" required>
+            <label asp-for="row">Row</label>
+            <input asp-for="row" class="form-control" />
         </div>
 
         <div class="form-group">
-            <label for="column">Column:</label>
-            <input type="number" class="form-control" id="column" name="column" required>
+            <label asp-for="column">Column</label>
+            <input asp-for="column" class="form-control" />
         </div>
 
         <div class="form-group">
-            <label for="flightId">Flight ID:</label>
-            <input type="number" class="form-control" id="flightId" name="flightId" required>
+            <label asp-for="passport">Passport</label>
+            <input asp-for="passport" class="form-control" />
         </div>
 
         <div class="form-group">
-            <label for="passport">Passport:</label>
-            <input type="text" class="form-control" id="passport" name="passport" required>
-        </div>
-
-        <div class="form-group">
-            <label for="pricePaid">Price Paid:</label>
-            <input type="number" class="form-control" id="pricePaid" name="pricePaid" required>
-        </div>
-
-        <div class="form-group">
-            <label for="cancelled">Cancelled:</label>
-            <input type="checkbox" class="form-check-input" id="cancelled" name="cancelled">
+            <label asp-for="pricePaid">Price</label>
+            <input asp-for="pricePaid" class="form-control" />
         </div>
 
         <button type="submit" class="btn btn-primary">Book Ticket</button>
