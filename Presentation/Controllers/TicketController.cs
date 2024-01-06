@@ -2,6 +2,7 @@
 using BusinessLogic.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Presentation.Models;
 using System.Diagnostics;
 
@@ -9,11 +10,13 @@ namespace Presentation.Controllers
 {
     public class TicketController : Controller
     {
+        private ILogger<TicketController> logger;
         private TicketsService ticketsService;
         private FlightsService flightsService;
         private IWebHostEnvironment hostService;
-        public TicketController(TicketsService _ticketsService, FlightsService _flightsService, IWebHostEnvironment _host)
+        public TicketController(ILogger<TicketController> _logger, TicketsService _ticketsService, FlightsService _flightsService, IWebHostEnvironment _host)
         {
+            logger = _logger;
             ticketsService = _ticketsService;
             flightsService = _flightsService;
             hostService = _host;
@@ -21,34 +24,32 @@ namespace Presentation.Controllers
         }
 
         [HttpGet] //Get method is called to load the page with blank controls
-        public IActionResult Book()
+        public IActionResult Book(int Id)
         {
+            var flight = flightsService.GetFlight(Id);
+
             BookTicketViewModel myModel = new BookTicketViewModel();
+            myModel.Flight = flight;
+
+            logger.LogInformation("myModel:  " + myModel.Flight.Id);
+
+            myModel.flightId = flight.Id;
 
             return View(myModel);
         }
 
         [HttpPost]
-        public IActionResult Book(BookTicketViewModel myModel, int fId, [FromServices] IWebHostEnvironment host)
+        public IActionResult Book(BookTicketViewModel data, [FromServices] IWebHostEnvironment host)
         {
-            var flightDetails = flightsService.GetFlight(fId);
 
-/*            try
-            {*/
-                myModel.flightId = fId;
-                // Add the ticket
-                ticketsService.AddTicket(myModel.row, myModel.column, myModel.flightId, myModel.passport, myModel.pricePaid, myModel.cancelled);
+                ticketsService.AddTicket(data.row, data.column, data.flightId, data.passport, data.pricePaid, data.cancelled);
 
-                ViewBag.Message = "Ticket booked successfully";
-                
-           /* }
-            catch (Exception ex)
-            {*/
-                //ViewBag.Error = "There was a problem booking this flight. Make sure all the fields are correctly filled";
-            //}
-
-            return View("Book", new BookTicketViewModel());
+                TempData["Message"] = "Ticket booked successfully";
+                return RedirectToAction("Book", new { Id = data.flightId });
+      
         }
+
+
 
     }
 }

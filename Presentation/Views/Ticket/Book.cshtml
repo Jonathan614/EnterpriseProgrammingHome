@@ -21,28 +21,74 @@
         </div>
     }
 
-    <form method="post" asp-action="Book">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="hidden" asp-for="row" id="selectedRow" class="form-control" />
+            </div>
 
-        <div class="form-group">
-            <label asp-for="row">Row</label>
-            <input asp-for="row" class="form-control" />
+            <div class="form-group">
+                <input type="hidden" asp-for="column" id="selectedColumn" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Select Seat:</label>
+
+                <div class="text-center mt-3">
+                    <table class="table table-bordered text-center" style="width: fit-content;">
+                        <tbody>
+                            @for (int i = 1; i <= Model.Flight.rows; i++)
+                            {
+                                <tr>
+                                    @for (int j = 1; j <= Model.Flight.columns; j++)
+                                    {
+                                        var seatId = $"{i}-{j}";
+                                        <td style="width: 30px; height: 30px;">
+                                            <button type="button" class="btn btn-sm btn-outline-primary seat" style="padding: 0; font-size: 10px;" data-seat="@seatId">@seatId</button>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <input type="hidden" id="selectedSeat" name="column" />
+                <input type="hidden" asp-for="flightId" class="form-control" />
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="column">Column</label>
-            <input asp-for="column" class="form-control" />
-        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="passport">Passport</label>
+                <input asp-for="passport" class="form-control" />
+            </div>
 
-        <div class="form-group">
-            <label asp-for="passport">Passport</label>
-            <input asp-for="passport" class="form-control" />
-        </div>
+            <div class="form-group">
+                <label asp-for="pricePaid">Price</label>
+                <input asp-for="pricePaid" class="form-control" />
+            </div>
 
-        <div class="form-group">
-            <label asp-for="pricePaid">Price</label>
-            <input asp-for="pricePaid" class="form-control" />
+            <button type="submit" class="btn btn-primary">Book Ticket</button>
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Book Ticket</button>
-    </form>
+    <script>
+        document.querySelectorAll('.seat').forEach(function (seatButton) {
+            seatButton.addEventListener('click', function () {
+                var selectedSeat = this.getAttribute('data-seat');
+                document.getElementById('selectedSeat').value = selectedSeat;
+
+                var parts = selectedSeat.split('-');
+                document.getElementById('selectedRow').value = parts[0];
+                document.getElementById('selectedColumn').value = parts[1];
+
+                document.querySelectorAll('.seat').forEach(function (btn) {
+                    btn.classList.remove('btn-primary');
+                });
+
+                this.classList.add('btn-primary');
+            });
+        });
+    </script>
 </div>

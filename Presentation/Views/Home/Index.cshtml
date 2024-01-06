@@ -23,7 +23,6 @@
                     <th>To</th>
                     <th>Departure Date</th>
                      <th>Remaining Seats</th>
-                    <th>Price</th>
                     <th></th>
                 </tr>
             </thead>
@@ -35,7 +34,6 @@
                         <td>@Html.DisplayFor(modelFlight => flight.countryTo)</td>
                         <td>@flight.departureDateTime.ToString("dd/MM/yy - HH:mm")</td>
                         <td>@Html.DisplayFor(modelFlight => flight.seatsLeft)</td>
-                        <td>@string.Format(new System.Globalization.CultureInfo("en-EU"), "{0:C}", flight.price)</td>
                         <td>
                             <a class="btn btn-info btn-sm" href="@Url.Action("Details", "Flight", new { id = flight.Id })">Details</a>
                         </td>

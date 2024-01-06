@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="mt-4">
-                <a class="btn btn-success" href="@Url.Action("Book", "Ticket", new { id = Model.Id })">Book This Flight</a>
+                <a class="btn btn-success" asp-controller="Ticket" asp-action="Book" asp-route-Id="@Model.Id">Book This Flight</a>
             </div>
         </div>
     </div>
