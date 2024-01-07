@@ -40,6 +40,10 @@ namespace Presentation.Controllers
         [HttpPost]
         public IActionResult Book(BookTicketViewModel data, [FromServices] IWebHostEnvironment host, IFormFile file)
         {
+            if (User.Identity.IsAuthenticated) 
+            {
+                //get passport from user details
+            }
 
             string uniqueFilename = "";
 
@@ -76,7 +80,7 @@ namespace Presentation.Controllers
             }
             catch (Exception ex) //innerException
             {
-                ViewBag.Error = "There was a problem adding a new Ticket. make sure all the fields are correctly filled";
+                ViewBag.Error = "There was a problem booking this Ticket. make sure all the fields are correctly filled";
             }
             return RedirectToAction("GetPurchasedTickets", "TicketHist");
 
