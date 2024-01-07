@@ -21,7 +21,7 @@
         </div>
     }
 
-    <form method="post" asp-action="Book">
+    <form method="post" asp-action="Book" enctype="multipart/form-data">
         <div class="form-group">
             <input type="hidden" asp-for="row" id="selectedRow" class="form-control"/>
         </div>
@@ -59,6 +59,10 @@
             <div class="form-group">
                 <label asp-for="passport">Passport</label>
                 <input asp-for="passport" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label  asp-for="passportPhotoPath">Passport Photo</label>
+                <input type="file" name="file"  class="form-control" />
             </div>
 
             <div class="form-group">
