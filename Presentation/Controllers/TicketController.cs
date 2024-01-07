@@ -29,9 +29,8 @@ namespace Presentation.Controllers
             var flight = flightsService.GetFlight(Id);
 
             BookTicketViewModel myModel = new BookTicketViewModel();
-            myModel.Flight = flight;
+            myModel.FlightVM = flight;
 
-            logger.LogInformation("myModel:  " + myModel.Flight.Id);
 
             myModel.flightId = flight.Id;
 
@@ -42,10 +41,11 @@ namespace Presentation.Controllers
         public IActionResult Book(BookTicketViewModel data, [FromServices] IWebHostEnvironment host)
         {
 
+            logger.LogInformation("data.Flight:  " + data.FlightVM);
+                
                 ticketsService.AddTicket(data.row, data.column, data.flightId, data.passport, data.pricePaid, data.cancelled);
 
-                TempData["Message"] = "Ticket booked successfully";
-                return RedirectToAction("Book", new { Id = data.flightId });
+                return RedirectToAction("GetPurchasedTickets", "TicketHist");
       
         }
 
