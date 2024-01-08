@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Ticket Purchase History";
 }
 
@@ -14,6 +13,7 @@
                 <th>Column</th>
                 <th>Flight Id</th>
                 <th>Price Paid</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +25,11 @@
                     <td>@ticket.column</td>
                     <td>@ticket.flightId</td>
                     <td>@ticket.pricePaid.ToString("C", new System.Globalization.CultureInfo("en-EU"))</td>
+                    <td>
+                        <form method="post" asp-action="Cancel" asp-route-ticketId="@ticket.Id">
+                            <button type="submit" class="btn btn-danger">Cancel</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>

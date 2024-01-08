@@ -37,12 +37,19 @@ namespace Presentation.Controllers
             if (user != null)
             {
                 passport = user.passport;
-                
+
             }
 
             var purchasedTickets = ticketsService.GetTickets(passport).ToList();
 
             return View("PurchaseHist", purchasedTickets);
+        }
+
+        [HttpPost]
+        public IActionResult Cancel(int ticketId) 
+        {
+            ticketsService.Cancel(ticketId);
+            return RedirectToAction("GetPurchasedTickets");
         }
     }
 }
