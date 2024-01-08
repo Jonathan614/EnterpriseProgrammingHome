@@ -9,11 +9,6 @@
 <div class="container mt-4">
     <h1 class="display-4">Flights</h1>
 
-    @* Add a button to navigate to the flight search page *@
-   @* <div class="mb-3">
-        <a class="btn btn-primary" href="/Flights/Search">Search Flights</a>
-    </div>*@
-
     @if (Model != null && Model.Any())
     {
         <table class="table table-striped">
@@ -23,6 +18,7 @@
                     <th>To</th>
                     <th>Departure Date</th>
                      <th>Remaining Seats</th>
+                     <th>Price</th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,11 +28,18 @@
                     <tr>
                         <td>@Html.DisplayFor(modelFlight => flight.countryFrom)</td>
                         <td>@Html.DisplayFor(modelFlight => flight.countryTo)</td>
-                        <td>@flight.departureDateTime.ToString("dd/MM/yy - HH:mm")</td>
+                        <td>@flight.departureDateTime.ToString()</td>
                         <td>@Html.DisplayFor(modelFlight => flight.seatsLeft)</td>
+                        <td>@string.Format("€{0:N2}", flight.price)</td>
                         <td>
-                            <a class="btn btn-info btn-sm" href="@Url.Action("Details", "Flight", new { id = flight.Id })">Details</a>
+                            <a class="btn btn-warning btn-sm" href="@Url.Action("Details", "Flight", new { id = flight.Id })" @(flight.seatsLeft>0 ? "disabled" : "")>Details</a>
                         </td>
+                        @if (ViewBag.Admin)
+                        {
+                            <td>
+                                <a class="btn btn-info btn-sm" href="@Url.Action("Tickets", "Admin", new { flightId = flight.Id })">Bookings</a>
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>

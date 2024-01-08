@@ -1,0 +1,31 @@
+﻿@model BusinessLogic.ViewModels.TicketViewModel
+
+@{
+    ViewData["Title"] = "TicketDetails";
+}
+
+<div class="container mt-5">
+    <h1 class="display-4">Details for ticket @Model.Id</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Row</th>
+                <th>Column</th>
+                <th>Price Paid</th>
+                <th>Passport</th>
+                <th>Passport Photo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.row</td>
+                <td>@Model.column</td>
+                <td>@Model.pricePaid</td>
+                <td>@Model.passport</td>
+                <td><img src="@Model.passportPhotoPath" alt="Passport Photo" style="max-width: 100px; max-height: 100px;" /></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

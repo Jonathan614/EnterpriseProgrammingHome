@@ -1,4 +1,6 @@
 ﻿using BusinessLogic.Services;
+using Domain.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
 using System.Diagnostics;
@@ -9,16 +11,27 @@ namespace Presentation.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private FlightsService flightsService;
+        private readonly UserManager<CustomUser> userManager;
 
-        public HomeController(FlightsService _flightsService, ILogger<HomeController> logger)
+
+        public HomeController(UserManager<CustomUser> userManager, FlightsService _flightsService, ILogger<HomeController> logger)
         {
             flightsService = _flightsService;
             _logger = logger;
+            this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             var flights = flightsService.ListFlights();
+            var user = await userManager.GetUserAsync(User);
+            var admin = false;
+
+            if ((user != null)&&(user.isAdmin))
+            {
+                admin = true;
+            }
+            ViewBag.Admin = admin;
 
             return View(flights);
         }
