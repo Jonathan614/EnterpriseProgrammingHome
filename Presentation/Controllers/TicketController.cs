@@ -1,6 +1,8 @@
 ﻿using BusinessLogic.Services;
 using BusinessLogic.ViewModels;
+using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation.Models;
@@ -14,17 +16,20 @@ namespace Presentation.Controllers
         private TicketsService ticketsService;
         private FlightsService flightsService;
         private IWebHostEnvironment hostService;
-        public TicketController(ILogger<TicketController> _logger, TicketsService _ticketsService, FlightsService _flightsService, IWebHostEnvironment _host)
+        private readonly UserManager<CustomUser> userManager;
+
+        public TicketController(UserManager<CustomUser> userManager, ILogger<TicketController> _logger, TicketsService _ticketsService, FlightsService _flightsService, IWebHostEnvironment _host)
         {
             logger = _logger;
             ticketsService = _ticketsService;
             flightsService = _flightsService;
             hostService = _host;
-
+            this.userManager = userManager;
         }
+        string passport = null;
 
         [HttpGet] //Get method is called to load the page with blank controls
-        public IActionResult Book(int Id)
+        public async Task<IActionResult> BookAsync(int Id)
         {
             var flight = flightsService.GetFlight(Id);
 
@@ -34,16 +39,21 @@ namespace Presentation.Controllers
 
             myModel.flightId = flight.Id;
 
+            var user = await userManager.GetUserAsync(User);
+
+            if (user != null)
+            {
+                myModel.passport = user.passport;
+                logger.LogInformation($"This.passport {this.passport} ===============", "info");
+
+            }
+            
             return View(myModel);
         }
 
         [HttpPost]
         public IActionResult Book(BookTicketViewModel data, [FromServices] IWebHostEnvironment host, IFormFile file)
         {
-            if (User.Identity.IsAuthenticated) 
-            {
-                //get passport from user details
-            }
 
             string uniqueFilename = "";
 
@@ -82,7 +92,15 @@ namespace Presentation.Controllers
             {
                 ViewBag.Error = "There was a problem booking this Ticket. make sure all the fields are correctly filled";
             }
-            return RedirectToAction("GetPurchasedTickets", "TicketHist");
+
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("GetPurchasedTickets", "TicketHist");
+            }
+            else
+            {
+                return RedirectToAction("Index","Home");
+            }
 
         }
     }      

@@ -23,58 +23,59 @@
 
     <form method="post" asp-action="Book" enctype="multipart/form-data">
         <div class="form-group">
-            <input type="hidden" asp-for="row" id="selectedRow" class="form-control"/>
+            <input type="hidden" asp-for="row" id="selectedRow" class="form-control" required />
         </div>
 
         <div class="form-group">
-            <input type="hidden" asp-for="column" id="selectedColumn" class="form-control"/>
+            <input type="hidden" asp-for="column" id="selectedColumn" class="form-control" required />
         </div>
 
         <div class="form-group" style="width: 50%; float: left;">
             <label>Select Seat:</label>
 
-        <div class="text-center mt-3">
-            <table class="table table-bordered text-center" style="width: 500px">
-                <tbody>
-                    @for (int i = 1; i <= Model.FlightVM.rows; i++)
-                    {
-                        <tr>
-                            @for (int j = 1; j <= Model.FlightVM.columns; j++)
-                            {
-                                var seatId = $"{i}-{j}";
-                                <td style="width: 30px; height: 30px;">
-                                    <button type="button" class="btn btn-sm btn-outline-primary seat" style="padding: 1; font-size: 12px;" data-seat="@seatId">@seatId</button>
-                                </td>
-                            }
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+            <div class="text-center mt-3">
+                <table class="table table-bordered text-center" style="width: 500px">
+                    <tbody>
+                        @for (int i = 1; i <= Model.FlightVM.rows; i++)
+                        {
+                            <tr>
+                                @for (int j = 1; j <= Model.FlightVM.columns; j++)
+                                {
+                                    var seatId = $"{i}-{j}";
+                                    <td style="width: 30px; height: 30px;">
+                                        <button type="button" class="btn btn-sm btn-outline-primary seat" style="padding: 1; font-size: 12px;" data-seat="@seatId">@seatId</button>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-            <input type="hidden" id="selectedSeat" name="column" />
-            <input type="hidden" asp-for="flightId" class="form-control" />
+            <input type="hidden" id="selectedSeat" name="column" required />
+            <input type="hidden" asp-for="flightId" class="form-control" required />
         </div>
         <div style="width: 50%; float: right;">
             <div class="form-group">
-                <label asp-for="passport">Passport</label>
-                <input asp-for="passport" class="form-control" />
+                <label for="passport">Passport:</label>
+                <input type="text" id="passport" name="passport" value="@Model.passport" class="form-control" required />
+                <span asp-validation-for="passport" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label  asp-for="passportPhotoPath">Passport Photo</label>
-                <input type="file" name="file"  class="form-control" />
+                <label asp-for="passportPhotoPath">Passport Photo</label>
+                <input type="file" name="file" class="form-control" required />
             </div>
 
             <div class="form-group">
                 <label asp-for="pricePaid">Price</label>
-                <input asp-for="pricePaid" class="form-control" value="@Model.FlightVM.price" readonly/>
+                <input asp-for="pricePaid" class="form-control" value="@Model.FlightVM.price" readonly required />
             </div>
-
             <button type="submit" class="btn btn-primary" style="margin-top: 10px">Book Ticket</button>
 
         </div>
-        
     </form>
+
 
 
     <script>

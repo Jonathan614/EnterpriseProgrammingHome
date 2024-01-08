@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Presentation.Models;
 using System.Diagnostics;
+using Domain.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Presentation.Controllers
 {
@@ -14,19 +16,29 @@ namespace Presentation.Controllers
         private TicketsService ticketsService;
         private FlightsService flightsService;
         private IWebHostEnvironment hostService;
-        public TicketHistController(TicketsService _ticketsService, FlightsService _flightsService, IWebHostEnvironment _host)
+        private readonly UserManager<CustomUser> userManager;
+
+        public TicketHistController(UserManager<CustomUser> userManager, TicketsService _ticketsService, FlightsService _flightsService, IWebHostEnvironment _host)
         {
             ticketsService = _ticketsService;
             flightsService = _flightsService;
             hostService = _host;
-
+            this.userManager = userManager;
         }
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetPurchasedTickets()
+        public async Task<IActionResult> GetPurchasedTickets()
         {
-            var passport = "67845";//to get from login deets
+            var user = await userManager.GetUserAsync(User);
+
+            var passport = "";
+
+            if (user != null)
+            {
+                passport = user.passport;
+                
+            }
 
             var purchasedTickets = ticketsService.GetTickets(passport).ToList();
 
