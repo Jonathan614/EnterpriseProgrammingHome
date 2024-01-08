@@ -32,7 +32,7 @@
                         <td>@Html.DisplayFor(modelFlight => flight.seatsLeft)</td>
                         <td>@string.Format("€{0:N2}", flight.price)</td>
                         <td>
-                            <a class="btn btn-warning btn-sm" href="@Url.Action("Details", "Flight", new { id = flight.Id })" @(flight.seatsLeft>0 ? "disabled" : "")>Details</a>
+                            <button type="button" class="btn btn-warning btn-sm" onclick="location.href='@Url.Action("Details", "Flight", new { id = flight.Id })'" @(flight.seatsLeft > 0 ? "" : "disabled")>Details</button>
                         </td>
                         @if (ViewBag.Admin)
                         {

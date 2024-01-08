@@ -72,7 +72,10 @@
                 <input asp-for="pricePaid" class="form-control" value="@Model.FlightVM.price" readonly required />
             </div>
             <button type="submit" class="btn btn-primary" style="margin-top: 10px">Book Ticket</button>
-
+            @if (ViewBag.User == null)
+            {
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login to autofill details</a>
+            }
         </div>
     </form>
 

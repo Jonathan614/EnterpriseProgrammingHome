@@ -43,6 +43,7 @@ namespace Presentation.Controllers
 
             if (user != null)
             {
+                ViewBag.User = user;
                 myModel.passport = user.passport;
                 logger.LogInformation($"This.passport {this.passport} ===============", "info");
 
